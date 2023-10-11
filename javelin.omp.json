@@ -1,0 +1,200 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "final_space": true,
+  "shell_integration": true,
+  "console_title_template": "[#{{ .PromptCount }}] {{ .PWD }}",
+  "palette": {
+    "black": "#111111",
+    "dimmed-gray":   "#404040",
+    "visible-gray": "#808080",
+    "error-code": "#FF2020",
+    "path-segment": "#355b80",
+    "git-segment-bg": "#453a26",
+    "git-segment-text": "#ffffb7",
+    "git-segment-dimmed": "#999999",
+    "ms-azure": "#008AD7"
+
+},
+  "blocks": [
+
+    {
+      "alignment": "left",
+      "type": "prompt",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "   ⮝    ",
+          "foreground": "p:visible-gray"
+        },
+
+        {
+          "type": "time",
+          "foreground": "p:visible-gray",
+          "style": "plain",
+          "template": "{{ .CurrentDate | date .Format }}",
+          "properties": {
+          "time_format": " 15:04   "
+          }
+        },
+
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if gt .Ms 300 }}p:visible-gray{{ end }}",
+            "p:dimmed-gray"
+          ],
+          "template": "⧗{{ .FormattedMs }}   ",
+          "properties": {
+            "style": "round",
+            "always_enabled": true
+          }
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if ne .Code 0 }}p:error-code{{ end }}",
+            "p:dimmed-gray"
+          ],
+          "template": " {{ if eq .Code 0 }}0{{ else if gt .Code 0 }}{{ .Code }}{{ else }}{{ .Code | hresult }}{{ end }}  "
+        },
+        {
+          "type": "sysinfo",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if gt .PhysicalPercentUsed 85  }}p:error-code{{ end }}",
+            "{{ if gt .PhysicalPercentUsed 70  }}p:visible-gray{{ end }}",
+            "p:dimmed-gray"
+          ],
+          "template": " {{ round .PhysicalPercentUsed .Precision }}%   ",
+          "properties": {
+            "precision": 2
+          }
+        },
+        {
+          "type": "battery",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if eq .State.String \"Full\" }}p:dimmed-gray{{ end }}",
+			"{{ if eq .State.String \"Charging\" }}p:dimmed-gray{{ end }}",
+            "{{ if gt .Percentage 50  }}p:visible-gray{{ end }}",
+            "p:error-code"
+          ],
+          "template": "{{ .Icon }}{{ .Percentage }}%",
+		  "properties": {
+			"discharging_icon": "▼",
+			"charging_icon": "⚡",
+			"charged_icon": "🪫"
+		  }
+        }
+      ]
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:path-segment",
+          "template": "\n"
+        }
+      ],
+      "type": "prompt"
+    },
+
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "overflow": "hide",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:path-segment",
+          "template": "┌─"
+        },
+        {
+          "type": "os",
+          "background": "p:path-segment",
+          "foreground": "white",
+          "style": "powerline",
+          "template": "{{ .Icon }} "
+        },
+        {
+          "type": "path",
+          "background": "p:path-segment",
+          "foreground": "white",
+          "properties": {
+            "style": "full"
+          },
+          "trailing_diamond": "\ue0b6",
+          "style": "powerline",
+          "template": "{{ url .Path .Location }} "
+        },
+
+        {
+          "type": "git",
+          "foreground": "p:git-segment-text",
+          "background": "p:git-segment-bg",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "invert_powerline": true,
+          "powerline_symbol": "",
+          "style": "powerline",
+          "template": " {{ abbrev 28 .HEAD }}<d>#{{ trunc 7 .Commit.Sha }}</d> "
+        },
+        {
+          "type": "az",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "invert_powerline": true,
+          "background": "p:ms-azure",
+          "foreground_templates": [
+            "{{ if eq .Name \"Abacus Medicine A/S\"}}red{{ end }}",
+            "white"
+          ],
+          "template": " ﴃ {{ if eq .Name \"Abacus Medicine A/S - NonProd\" }}AM NonProd{{ else if eq .Name \"Abacus Medicine A/S\"}}AM Prod{{ else if eq .Name \"Visual Studio Professional előfizetés\"}}VS Profnl{{ else }}N/A{{ end }} ",
+          "properties": {
+            "source": "pwsh"
+          }
+        },
+        {
+          "type": "text",
+          "style": "diamond",
+          "invert_powerline": true,
+          "trailing_diamond": "\ue0b4",
+          "background": "p:path-segment",
+          "foreground": "p:dimmed-gray",
+          "template": "<i>#{{ .PromptCount }}</i>"
+        }
+
+
+      ]
+    },
+
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "p:path-segment",
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "powerline",
+          "template": "└►",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+    
+  ],
+  "version": 2
+}
