@@ -13,8 +13,11 @@
     "git-segment-text": "#ffffb7",
     "git-segment-dimmed": "#999999",
     "ms-azure": "#008AD7"
-
-},
+  },
+  "secondary_prompt": {
+    "foreground": "p:dimmed-gray",
+    "template": " ► "
+  },  
   "blocks": [
 
     {
