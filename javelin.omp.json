@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "final_space": true,
   "shell_integration": true,
-  "console_title_template": "[#{{ .PromptCount }}] {{ .PWD }}",
+  "console_title_template": "{{ .PWD }} [#{{ .PromptCount }}]",
   "palette": {
     "black": "#111111",
     "dimmed-gray":   "#404040",
